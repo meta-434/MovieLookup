@@ -13,6 +13,7 @@
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/styles.css">
 
   <meta name="theme-color" content="#fafafa">
 </head>
@@ -24,7 +25,17 @@
 
   <!-- Add your site or application content here -->
 
-  <h1>MovieLookup</h1>
+  <div class="container">
+    <h1>Movie Lookup</h1>
+
+    <form>
+      <input type="text" placeholder="movie title" id="input">
+      <input type="submit" value="search">
+    </form>
+    <section class="results hidden">
+      <div class="results-movies" />
+    </section>
+  </div>
 
   <script src="js/vendor/modernizr-3.7.1.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
