@@ -7,10 +7,32 @@ body {
 }
 
 .container {
-  max-width: 600px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
-.hidden {
-  display: none;
+h1 {
+  background-color: lightpink;
+}
+
+form {
+  background-color: lightyellow;
+}
+
+div[id^="movie"] {
+  margin: 0 10px 0 10px;
+}
+
+.results-hidden {
+  background-color: orange;
+}
+
+.results-movies {
+  background-color: lightblue;
+  min-width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
