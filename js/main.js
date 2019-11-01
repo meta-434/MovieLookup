@@ -102,7 +102,7 @@ async function displayMovieInfo(json) {
 
 function displaySearchResults(json) {
   json.results.map(item => {
-    const imgUrl = `http://image.tmdb.org/t/p/w342${item.poster_path}`;
+    const imgUrl = `https://image.tmdb.org/t/p/w342${item.poster_path}`;
     $('.results-movies').append(
       `<div id="movie" data-tmdb-id="${item.id}">
             <p>${item.original_title}<p>
