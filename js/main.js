@@ -29,18 +29,10 @@ async function getNytReviews (title, openYear) {
   return data;
 }
 
-function getTasteDiveRecs (srcParam) {
-  fetch(`https://tastedive.com/api/similar?q=${srcParam}&type=movie&info=1&limit=10&k=${TASTEDIVE_API_KEY}`)
-    .then(res => {
-      if (res.ok) {
-        console.log(res.json());
-        return res.json();
-      }
-      throw new Error(res.statusText);
-    })
-    .then(resJson => {
-      return resJson;
-    })
+async function getTasteDiveRecs (srcParam) {
+  let response = await fetch(`https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${srcParam}&type=movie&info=1&limit=10&k=${TASTEDIVE_API_KEY}`);
+  let data = await response.json();
+  return data;
 }
 
 function getOmdbReviews (imdb_id) {
@@ -73,9 +65,9 @@ function getImdbId (tmdb_id) {
 
 async function displayMovieInfo(json) {
   const nytRev = await Promise.resolve(getNytReviews(json.Title, json.Year));
-  const tasteRec = getTasteDiveRecs(json.Title);
+  const tasteRec = await Promise.resolve(getTasteDiveRecs(json.Title));
   console.log(tasteRec);
-  
+
   $('.results-movies').append(
     `<div id="movie" data-imdb-id="${json.imdbID}" xmlns="http://www.w3.org/1999/html">
             <h3>${json.Title} (${json.Year})<h3>
@@ -92,6 +84,17 @@ async function displayMovieInfo(json) {
                 <p>-Reviews-</p>
                 <h4>${nytRev.results[0].headline} <br /> ${nytRev.results[0].byline}</h4>
                 <p>${nytRev.results[0].summary_short}</p>
+                
+                <p>-Similar Movies-</p>
+                <ul>
+                    ${tasteRec.Similar.Results.map(rec => { return (
+                      `<li>
+                            <p><a href=${rec.wUrl}>${rec.Name}</a></p>
+                            <p>${rec.wTeaser}</p>
+                            <iframe width="420" height="315" src=${rec.yUrl}>
+                            </iframe>
+                       </li>`)})}
+                </ul>
             </div>
       </div>`
   );
