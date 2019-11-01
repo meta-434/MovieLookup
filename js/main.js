@@ -66,9 +66,10 @@ function getImdbId (tmdb_id) {
 async function displayMovieInfo(json) {
   const nytRev = await Promise.resolve(getNytReviews(json.Title, json.Year));
   const tasteRec = await Promise.resolve(getTasteDiveRecs(json.Title));
-  console.log(tasteRec);
+  console.log(nytRev);
 
   $('.results-movies').append(
+
     `<div id="movie" data-imdb-id="${json.imdbID}" xmlns="http://www.w3.org/1999/html">
             <h3>${json.Title} (${json.Year})<h3>
             <img src=${json.Poster} alt="movie poster" />
@@ -82,8 +83,10 @@ async function displayMovieInfo(json) {
                     ${json.Ratings.map(rev => `<li>Source: ${rev.Source} Score: ${rev.Value}</li>`)}
                 </ul>
                 <p>-Reviews-</p>
-                <h4>${nytRev.results[0].headline} <br /> ${nytRev.results[0].byline}</h4>
-                <p>${nytRev.results[0].summary_short}</p>
+                <h4>${(nytRev) ? (nytRev.results[0].headline) : (`no ny times reviews found`)}</h4>
+                <a target="_blank" href=${(nytRev) ? (nytRev.results[0].link.url) : (`...`)}>link</a>
+                <p>${(nytRev) ? (nytRev.results[0].byline) : (`...`)}</p>
+                <p>${(nytRev) ? (nytRev.results[0].summary_short) : (`...`)}</p>
                 
                 <p>-Similar Movies-</p>
                 <ul>
@@ -102,7 +105,7 @@ async function displayMovieInfo(json) {
 
 function displaySearchResults(json) {
   json.results.map(item => {
-    const imgUrl = `https://image.tmdb.org/t/p/w342${item.poster_path}`;
+    const imgUrl = (item.poster_path === null)?(`./img/no_poster.png`):(`https://image.tmdb.org/t/p/w342${item.poster_path}`);
     $('.results-movies').append(
       `<div id="movie" data-tmdb-id="${item.id}">
             <p>${item.original_title}<p>
