@@ -3,7 +3,7 @@
 const TMDB_API_KEY = "28c71925f5aad6fe8b7eb0161431ad96";
 const OMDB_API_KEY = "9c9b98e3";
 const NY_TIMES_API_KEY = "jIjbrgn4YdIHKu7cRx4EoufKwtsj7haJ";
-const TASTEFUL_API_KEY = "";
+const TASTEDIVE_API_KEY = "348896-movierec-7BX6163S";
 
 /* makes calls to TMDB based on a keyword. TMDB is used for the initial
   search because it is much better at searching with incomplete titles and
@@ -25,6 +25,12 @@ function getMovies(srcParam) {
 
 async function getNytReviews (title, openYear) {
   let response = await fetch(`https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${title}&opening-date=${openYear}-01-01;${parseInt(openYear, 10) + 1}-01-01&api-key=${NY_TIMES_API_KEY}`);
+  let data = await response.json();
+  return data;
+}
+
+async function getTasteDiveRecs (srcParam) {
+  let response = await fetch(`https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${srcParam}&type=movie&info=1&limit=10&k=${TASTEDIVE_API_KEY}`);
   let data = await response.json();
   return data;
 }
@@ -59,6 +65,8 @@ function getImdbId (tmdb_id) {
 
 async function displayMovieInfo(json) {
   const nytRev = await Promise.resolve(getNytReviews(json.Title, json.Year));
+  const tasteRec = await Promise.resolve(getTasteDiveRecs(json.Title));
+  console.log(tasteRec);
 
   $('.results-movies').append(
     `<div id="movie" data-imdb-id="${json.imdbID}" xmlns="http://www.w3.org/1999/html">
@@ -76,6 +84,17 @@ async function displayMovieInfo(json) {
                 <p>-Reviews-</p>
                 <h4>${nytRev.results[0].headline} <br /> ${nytRev.results[0].byline}</h4>
                 <p>${nytRev.results[0].summary_short}</p>
+                
+                <p>-Similar Movies-</p>
+                <ul>
+                    ${tasteRec.Similar.Results.map(rec => { return (
+                      `<li>
+                            <p><a href=${rec.wUrl}>${rec.Name}</a></p>
+                            <p>${rec.wTeaser}</p>
+                            <iframe width="420" height="315" src=${rec.yUrl}>
+                            </iframe>
+                       </li>`)})}
+                </ul>
             </div>
       </div>`
   );
