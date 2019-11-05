@@ -83,10 +83,10 @@ async function displayMovieInfo(json) {
                     ${json.Ratings.map(rev => `<li>Source: ${rev.Source} Score: ${rev.Value}</li>`)}
                 </ul>
                 <p>-Reviews-</p>
-                <h4>${(nytRev.results[0].headline) ? (nytRev.results[0].headline) : (`no ny times reviews found`)}</h4>
-                <a target="_blank" href=${(nytRev.results[0].link.url) ? (nytRev.results[0].link.url) : (`...`)}>link</a>
-                <p>${(nytRev.results[0].byline) ? (nytRev.results[0].byline) : (`...`)}</p>
-                <p>${(nytRev.results[0].summary_short) ? (nytRev.results[0].summary_short) : (`...`)}</p>
+                <h4>${(nytRev.num_results > 0) ? (nytRev.results[0].headline) : (`no ny times reviews found`)}</h4>
+                <a target="_blank" href=${(nytRev.num_results > 0) ? (nytRev.results[0].link.url) : (`...`)}>link</a>
+                <p>${(nytRev.num_results > 0) ? (nytRev.results[0].byline) : (`...`)}</p>
+                <p>${(nytRev.num_results > 0) ? (nytRev.results[0].summary_short) : (`...`)}</p>
                 
                 <p>-Similar Movies-</p>
                 <ul>
