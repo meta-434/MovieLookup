@@ -68,7 +68,7 @@ async function displayMovieInfo(json) {
   const tasteRec = await Promise.resolve(getTasteDiveRecs(json.Title));
   console.log(nytRev);
 
-  $('.results-movies').append(
+  $('.indiv-movie').append(
 
     `<div id="movie" data-imdb-id="${json.imdbID}" xmlns="http://www.w3.org/1999/html">
             <h3>${json.Title} (${json.Year})<h3>
