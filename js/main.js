@@ -18,6 +18,9 @@ function getMovies(srcParam) {
     })
     .then(responseJson => {
       console.log(responseJson);
+      if (responseJson.total_results === 0) {
+        throw new Error(`no results for ${srcParam}. Please try a different movie.`)
+      }
       displaySearchResults(responseJson);
     })
     .catch(error => alert(`error: ${error}. search for ${srcParam} failed.`));
