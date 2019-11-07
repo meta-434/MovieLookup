@@ -66,7 +66,7 @@ function getImdbId (tmdb_id) {
 async function displayMovieInfo(json) {
   const nytRev = await Promise.resolve(getNytReviews(json.Title, json.Year));
   const tasteRec = await Promise.resolve(getTasteDiveRecs(json.Title));
-  console.log(nytRev);
+  console.log(nytRev.num_results);
 
   $('.indiv-movie').append(
 
@@ -122,6 +122,7 @@ function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
     $('.results-movies').children().detach();
+    $('.indiv-movie').children().detach();
     getMovies($('#input').val());
   });
 }
