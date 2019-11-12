@@ -70,6 +70,7 @@ async function displayMovieInfo(json) {
   const nytRev = await Promise.resolve(getNytReviews(json.Title, json.Year));
   const tasteRec = await Promise.resolve(getTasteDiveRecs(json.Title));
   console.log(nytRev.num_results);
+  $('.indiv-movie').children().detach();
 
   $('.indiv-movie').append(
 
@@ -133,6 +134,7 @@ function watchForm() {
 function watchSelection() {
   $('.results-movies').on("click", "div", function (event) {
     $('.results-movies').children().detach();
+    $('.indiv-movie').append(`<img src="img/loading.gif" />`);
     getImdbId($(event.currentTarget).data('tmdb-id'));
   });
 }

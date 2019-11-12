@@ -4,6 +4,8 @@
 
 body {
   font-family: 'Roboto', sans-serif;
+  background-color: #192026;
+  color: white;
 }
 
 .container {
@@ -13,24 +15,11 @@ body {
   text-align: center;
 }
 
-h1 {
-  background-color: lightpink;
-}
-
-form {
-  background-color: lightyellow;
-}
-
 div[id^="movie"] {
   margin: 0 10px 0 10px;
 }
 
-.results-hidden {
-  background-color: orange;
-}
-
 .results-movies {
-  background-color: lightblue;
   min-width: 100vw;
   display: flex;
   flex-wrap: wrap;
