@@ -35,27 +35,36 @@ a {
   text-decoration: none;
 }
 
-ul {
-  list-style-type: none;
-  min-width: 100vw;
-  display: inline-block;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-}
+/*#recommendations > ul {*/
+/*  list-style-type: none;*/
+/*  min-width: 100vw;*/
+/*  display: inline-block;*/
+/*  text-align: center;*/
+/*  flex-wrap: wrap;*/
+/*  justify-content: space-evenly;*/
+/*}*/
 
 p {
   font-weight: lighter;
 }
 
 li {
-  margin: 0 10px 0 10px;
-  max-width: 25%;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  border: 2px solid #699ff5;
+  list-style-type: none;
 }
 
-#rec-p {
-  font-size: small;
+#ratings {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#ratings > ul {
+  display: flex;
+  text-align: center;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+#ratings > ul > li{
+  border: 2px solid cornflowerblue;
+  max-width: 25%;
 }

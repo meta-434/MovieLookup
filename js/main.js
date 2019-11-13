@@ -84,9 +84,11 @@ async function displayMovieInfo(json) {
                 <br />
                 
                 <h4>-Ratings-</h4>
-                <ul>
-                    ${json.Ratings.map(rev => `<li>${rev.Source} Score: ${rev.Value}</li>`).join('')}
-                </ul>
+                <div id="ratings">
+                  <ul>
+                      ${json.Ratings.map(rev => `<li>${rev.Source} Score: ${rev.Value}</li>`).join('')}
+                  </ul>
+                </div>
                 <br />
                 
                 <h4>-Reviews-</h4>
@@ -97,15 +99,17 @@ async function displayMovieInfo(json) {
                 <br />
                 
                 <h4>-Similar Movies-</h4>
-                <ul>
-                    ${tasteRec.Similar.Results.map(rec => { return (
-                      `<li id="${rec.Name}">
-                            <p><a href=${rec.wUrl}>${rec.Name}</a></p>
-                            <p id="rec-p">${rec.wTeaser}</p>
-                            <iframe width="420" height="315" src=${rec.yUrl}>
-                            </iframe>
-                       </li>`)}).join('')}
-                </ul>
+                <div id="recommendations">
+                  <ul>
+                      ${tasteRec.Similar.Results.map(rec => { return (
+                        `<li id="${rec.Name}">
+                              <p><a href=${rec.wUrl}>${rec.Name}</a></p>
+                              <p id="rec-p">${rec.wTeaser}</p>
+                              <iframe width="420" height="315" src=${rec.yUrl}>
+                              </iframe>
+                         </li>`)}).join('')}
+                  </ul>
+                </div>
             </div>
       </div>`
   );
