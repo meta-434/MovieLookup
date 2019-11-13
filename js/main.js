@@ -71,7 +71,6 @@ async function displayMovieInfo(json) {
   const tasteRec = await Promise.resolve(getTasteDiveRecs(json.Title));
   console.log(nytRev.num_results);
   $('.indiv-movie').children().detach();
-
   $('.indiv-movie').append(
 
     `<div id="movie" data-imdb-id="${json.imdbID}" xmlns="http://www.w3.org/1999/html">
@@ -82,25 +81,30 @@ async function displayMovieInfo(json) {
                 <p>Starring: ${json.Actors}, Rated: ${json.Rated}</p>
                 <p>Director: ${json.Director} Genre(s): ${json.Genre}</p>
                 <p>Plot: ${json.Plot}</p>
-                <p>-Ratings-</p>
+                <br />
+                
+                <h4>-Ratings-</h4>
                 <ul>
-                    ${json.Ratings.map(rev => `<li>Source: ${rev.Source} Score: ${rev.Value}</li>`)}
+                    ${json.Ratings.map(rev => `<li>${rev.Source} Score: ${rev.Value}</li>`).join('')}
                 </ul>
-                <p>-Reviews-</p>
+                <br />
+                
+                <h4>-Reviews-</h4>
                 <h4>${(nytRev.num_results > 0) ? (nytRev.results[0].headline) : (`no ny times reviews found`)}</h4>
-                <a target="_blank" href=${(nytRev.num_results > 0) ? (nytRev.results[0].link.url) : (`...`)}>link</a>
                 <p>${(nytRev.num_results > 0) ? (nytRev.results[0].byline) : (`...`)}</p>
                 <p>${(nytRev.num_results > 0) ? (nytRev.results[0].summary_short) : (`...`)}</p>
+                <a target="_blank" href=${(nytRev.num_results > 0) ? (nytRev.results[0].link.url) : (`...`)}>Link to NYT Movie Review</a>
+                <br />
                 
-                <p>-Similar Movies-</p>
+                <h4>-Similar Movies-</h4>
                 <ul>
                     ${tasteRec.Similar.Results.map(rec => { return (
-                      `<li>
+                      `<li id="${rec.Name}">
                             <p><a href=${rec.wUrl}>${rec.Name}</a></p>
-                            <p>${rec.wTeaser}</p>
+                            <p id="rec-p">${rec.wTeaser}</p>
                             <iframe width="420" height="315" src=${rec.yUrl}>
                             </iframe>
-                       </li>`)})}
+                       </li>`)}).join('')}
                 </ul>
             </div>
       </div>`

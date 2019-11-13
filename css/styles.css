@@ -25,3 +25,37 @@ div[id^="movie"] {
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
+
+h3 {
+  font-weight: normal;
+}
+
+a {
+  color: #699ff5;
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  min-width: 100vw;
+  display: inline-block;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+p {
+  font-weight: lighter;
+}
+
+li {
+  margin: 0 10px 0 10px;
+  max-width: 25%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  border: 2px solid #699ff5;
+}
+
+#rec-p {
+  font-size: small;
+}
