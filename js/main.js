@@ -74,15 +74,18 @@ async function displayMovieInfo(json) {
   $('.indiv-movie').append(
 
     `<div id="movie" data-imdb-id="${json.imdbID}" xmlns="http://www.w3.org/1999/html">
-            <h3>${json.Title} (${json.Year})<h3>
-            <img src=${json.Poster} alt="movie poster" />
-            <div>
+            <div id="main-info">
+              <h3>${json.Title} (${json.Year})<h3>
+              <img src=${json.Poster} alt="movie poster" />
+              <div id="_movie-details">
                 <p>Released: ${json.Released}, DVD: ${json.DVD}</p>
                 <p>Starring: ${json.Actors}, Rated: ${json.Rated}</p>
                 <p>Director: ${json.Director} Genre(s): ${json.Genre}</p>
                 <p>Plot: ${json.Plot}</p>
-                <br />
-                
+              </div>
+            </div>
+            <br />
+            <div>                
                 <h4>-Ratings-</h4>
                 <div id="ratings">
                   <ul>
@@ -135,7 +138,10 @@ function watchForm() {
     event.preventDefault();
     $('.results-movies').children().detach();
     $('.indiv-movie').children().detach();
-    getMovies($('#input').val());
+    const movieName = $('#input').val();
+    $('#input').val('');
+    getMovies(movieName);
+
   });
 }
 
