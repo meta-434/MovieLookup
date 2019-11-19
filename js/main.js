@@ -74,18 +74,15 @@ async function displayMovieInfo(json) {
   $('.indiv-movie').append(
 
     `<div id="movie" data-imdb-id="${json.imdbID}" xmlns="http://www.w3.org/1999/html">
-            <div id="main-info">
-              <h3>${json.Title} (${json.Year})<h3>
-              <img src=${json.Poster} alt="movie poster" />
-              <div id="_movie-details">
+            <h3>${json.Title} (${json.Year})<h3>
+            <img src=${json.Poster} alt="movie poster" />
+            <div>
                 <p>Released: ${json.Released}, DVD: ${json.DVD}</p>
                 <p>Starring: ${json.Actors}, Rated: ${json.Rated}</p>
                 <p>Director: ${json.Director} Genre(s): ${json.Genre}</p>
                 <p>Plot: ${json.Plot}</p>
-              </div>
-            </div>
-            <br />
-            <div>                
+                <br />
+                
                 <h4>-Ratings-</h4>
                 <div id="ratings">
                   <ul>
@@ -105,7 +102,7 @@ async function displayMovieInfo(json) {
                 <div id="recommendations">
                   <ul>
                       ${tasteRec.Similar.Results.map(rec => { return (
-                        `<li id="${rec.Name}">
+      `<li id="${rec.Name}">
                               <p><a href=${rec.wUrl}>${rec.Name}</a></p>
                               <p id="rec-p">${rec.wTeaser}</p>
                               <iframe width="420" height="315" src=${rec.yUrl}>
@@ -120,7 +117,7 @@ async function displayMovieInfo(json) {
 
 function displaySearchResults(json) {
   json.results.map(item => {
-    const imgUrl = (item.poster_path === null)?(`./img/no_poster.png`):(`https://image.tmdb.org/t/p/w342${item.poster_path}`);
+    const imgUrl = (item.poster_path === null)?(`img/no_poster.png`):(`https://image.tmdb.org/t/p/w342${item.poster_path}`);
     $('.results-movies').append(
       `<div id="movie" data-tmdb-id="${item.id}">
             <p>${item.original_title}<p>
@@ -138,10 +135,7 @@ function watchForm() {
     event.preventDefault();
     $('.results-movies').children().detach();
     $('.indiv-movie').children().detach();
-    const movieName = $('#input').val();
-    $('#input').val('');
-    getMovies(movieName);
-
+    getMovies($('#input').val());
   });
 }
 
