@@ -115,7 +115,7 @@ async function displayMovieInfo(json) {
       json.imdbID
     }" xmlns="http://www.w3.org/1999/html">
             <h3>${json.Title} (${json.Year})<h3>
-            <img src=${json.Poster} alt="movie poster" />
+            <img src="${json.Poster}" alt="movie poster" />
             <div>
                 <p>Released: ${json.Released}, DVD: ${json.DVD}</p>
                 <p>Starring: ${json.Actors}, Rated: ${json.Rated}</p>
@@ -147,9 +147,9 @@ async function displayMovieInfo(json) {
         ? nytRev.results[0].summary_short
         : `...`
     }</p>
-                <a target="_blank" href=${
+                <a target="_blank" href="${
       nytRev.num_results > 0 ? nytRev.results[0].link.url : `...`
-    }>Link to NYT Movie Review</a>
+    }">Link to NYT Movie Review</a>
                 <br />
                 
                 <h4>-Similar Movies-</h4>
@@ -157,10 +157,9 @@ async function displayMovieInfo(json) {
                   <ul>
                       ${tasteRec.Similar.Results.map(rec => {
       return `<li id="${rec.Name}">
-                            <p><a href=${rec.wUrl}>${rec.Name}</a></p>
+                            <p><a href="${rec.wUrl}">${rec.Name}</a></p>
                             <p id="rec-p">${rec.wTeaser}</p>
-                            <iframe width="420" height="315" src=${rec.yUrl}>
-                            </iframe>
+                            ${renderTrailer(rec.yUrl)}
                          </li>`;
     }).join("")}
                   </ul>
@@ -168,6 +167,13 @@ async function displayMovieInfo(json) {
             </div>
       </div>`
   );
+}
+
+const renderTrailer = (source) => {
+  if (source) {
+    return `<iframe allow="autoplay" allowfullscreen width="420" height="315" src="${source}"></iframe>`
+  }
+  return '<p>no trailer found</p>'
 }
 
 /* displaySearchResults() uses the TMDb info returned from
@@ -185,7 +191,7 @@ function displaySearchResults(json) {
     $(".results-movies").append(
       `<div id="movie" data-tmdb-id="${item.id}">
             <p>${item.original_title}<p>
-            <img src=${imgUrl} alt="movie poster" />
+            <img src="${imgUrl}" alt="movie poster" />
       </div>`
     );
   });
