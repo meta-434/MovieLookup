@@ -21,6 +21,7 @@ function getMovies(srcParam) {
     .then(responseJson => {
       // console.log(responseJson);
       if (responseJson.total_results === 0) {
+        $(".results-movies").append(`<h2>Bad search term ${srcParam}<h2>`)
         throw new Error(
           `no results for ${srcParam}. Please try a different movie. @getMovies()`
         );
@@ -114,54 +115,72 @@ async function displayMovieInfo(json) {
     `<div id="movie" data-imdb-id="${
       json.imdbID
     }" xmlns="http://www.w3.org/1999/html">
-            <h3>${json.Title} (${json.Year})<h3>
-            <img src="${json.Poster}" alt="movie poster" />
+            <h2>${json.Title} (${json.Year})<h2>
+            <img
+                src="${
+                  (json.Poster !== "N/A")
+                  ? (json.Poster)
+                  : ("img/no_poster.png")
+                }"
+                alt="movie poster"
+            />
             <div>
                 <p>Released: ${json.Released}, DVD: ${json.DVD}</p>
                 <p>Starring: ${json.Actors}, Rated: ${json.Rated}</p>
                 <p>Director: ${json.Director} Genre(s): ${json.Genre}</p>
                 <p>Plot: ${json.Plot}</p>
                 <br />
-                
+
                 <h4>-Ratings-</h4>
                 <div id="ratings">
                   <ul>
-                      ${json.Ratings.map(
-      rev => `<li>${rev.Source} Score: ${rev.Value}</li>`
-    ).join("")}
+                      ${
+                        (!!json.Ratings && !!json.Ratings[0])
+                        ? (json.Ratings.map(rev => `<li>${rev.Source} Score: ${rev.Value}</li>`).join(""))
+                        :(`no ratings found...`)
+                      }
                   </ul>
                 </div>
                 <br />
-                
-                <h4>-Reviews-</h4>
+                <h3>-Reviews-</h3>
                 <h4>${
       nytRev.num_results > 0
         ? nytRev.results[0].headline
-        : `no ny times reviews found`
+        : `no ny times reviews found...`
     }</h4>
                 <p>${
-      nytRev.num_results > 0 ? nytRev.results[0].byline : `...`
+      nytRev.num_results > 0 ? nytRev.results[0].byline : `no byline found...`
     }</p>
                 <p>${
       nytRev.num_results > 0
         ? nytRev.results[0].summary_short
-        : `...`
+        : ``
     }</p>
-                <a target="_blank" href="${
-      nytRev.num_results > 0 ? nytRev.results[0].link.url : `...`
-    }">Link to NYT Movie Review</a>
+                ${
+                  (nytRev.num_results > 0)
+                  ?(`<a target="_blank" href="${nytRev.results[0].link.url}">Link to NYT Movie Review</a>`)
+                  :('')
+                }
+
                 <br />
-                
+
                 <h4>-Similar Movies-</h4>
                 <div id="recommendations">
                   <ul>
+                  ${
+                    (!!tasteRec.Similar.Results[0])
+                    ?('')
+                    :('no similar items found...')
+                  }
                       ${tasteRec.Similar.Results.map(rec => {
-      return `<li id="${rec.Name}">
+                        return (
+                          `<li id="${rec.Name}">
                             <p><a href="${rec.wUrl}">${rec.Name}</a></p>
                             <p id="rec-p">${rec.wTeaser}</p>
                             ${renderTrailer(rec.yUrl)}
-                         </li>`;
-    }).join("")}
+                          </li>`
+                        );
+                      }).join("")}
                   </ul>
                 </div>
             </div>
@@ -171,7 +190,7 @@ async function displayMovieInfo(json) {
 
 const renderTrailer = (source) => {
   if (source) {
-    return `<iframe allow="autoplay" allowfullscreen width="420" height="315" src="${source}"></iframe>`
+    return `<iframe allow="autoplay" allowfullscreen width="300" height="255" src="${source}"></iframe>`
   }
   return '<p>no trailer found</p>'
 }
