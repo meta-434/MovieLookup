@@ -245,11 +245,12 @@ function watchForm() {
  * for a search results' div.
  */
 function watchSelection() {
-  $(".results-movies").on("click", "div", function(event) {
+  $(".results-movies").on("click", "article", function(event) {
     $(".results-movies")
       .children()
       .detach();
     $(".indiv-movie").append(`<img src="img/loading.gif" />`);
+    console.log(event.currentTarget);
     getImdbId($(event.currentTarget).data("tmdb-id"));
   });
 }
