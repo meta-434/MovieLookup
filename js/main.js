@@ -111,20 +111,24 @@ async function displayMovieInfo(json) {
   $(".indiv-movie")
     .children()
     .detach();
-  $(".indiv-movie").append(
-    `<div id="movie" data-imdb-id="${
-      json.imdbID
-    }" xmlns="http://www.w3.org/1999/html">
+  if (json.Response === "False") {
+                $(".indiv-movie").append(`<h2>no results for selected movie. Please select a different movie.</h2>`);
+  } else {
+    $(".indiv-movie").append(
+      `<div
+        id="movie"
+        data-imdb-id="${json.imdbID}"
+        xmlns="http://www.w3.org/1999/html"
+    >
             <h2>${json.Title} (${json.Year})<h2>
             <img
                 src="${
-                  (json.Poster !== "N/A")
+                  (json.Poster !== "N/A" )
                   ? (json.Poster)
-                  : ("img/no_poster.png")
-                }"
+                  : ("img/no_poster.png")}"
                 alt="movie poster"
             />
-            <div>
+
                 <p>Released: ${json.Released}, DVD: ${json.DVD}</p>
                 <p>Starring: ${json.Actors}, Rated: ${json.Rated}</p>
                 <p>Director: ${json.Director} Genre(s): ${json.Genre}</p>
@@ -134,58 +138,54 @@ async function displayMovieInfo(json) {
                 <h4>-Ratings-</h4>
                 <div id="ratings">
                   <ul>
-                      ${
-                        (!!json.Ratings && !!json.Ratings[0])
-                        ? (json.Ratings.map(rev => `<li>${rev.Source} Score: ${rev.Value}</li>`).join(""))
-                        :(`no ratings found...`)
-                      }
+                      ${(!!json.Ratings && !!json.Ratings[0])
+                      ? (json.Ratings.map(rev => `<li>${rev.Source} <br /> Score: ${rev.Value}</li>`).join(""))
+                      :(`no ratings found...`)}
                   </ul>
                 </div>
                 <br />
-                <h3>-Reviews-</h3>
-                <h4>${
-      nytRev.num_results > 0
-        ? nytRev.results[0].headline
-        : `no ny times reviews found...`
-    }</h4>
-                <p>${
-      nytRev.num_results > 0 ? nytRev.results[0].byline : `no byline found...`
-    }</p>
-                <p>${
-      nytRev.num_results > 0
-        ? nytRev.results[0].summary_short
-        : ``
-    }</p>
-                ${
-                  (nytRev.num_results > 0)
-                  ?(`<a target="_blank" href="${nytRev.results[0].link.url}">Link to NYT Movie Review</a>`)
-                  :('')
-                }
 
+                <h3>-Reviews-</h3>
+                <h4>
+                  ${nytRev.num_results > 0
+                  ? nytRev.results[0].headline
+                  : `no ny times reviews found...`}
+                </h4>
+                <p>
+                  ${nytRev.num_results > 0
+                  ? nytRev.results[0].byline
+                  : `no byline found...`}
+                </p>
+                <p>
+                  ${nytRev.num_results > 0
+                  ? nytRev.results[0].summary_short
+                  : `no summary available...`}
+                </p>
+                  ${(nytRev.num_results > 0)
+                  ?(`<a target="_blank" href="${nytRev.results[0].link.url}">Link to NYT Movie Review</a>`)
+                  :('no NYT movie review...')}
                 <br />
 
                 <h4>-Similar Movies-</h4>
                 <div id="recommendations">
                   <ul>
-                  ${
-                    (!!tasteRec.Similar.Results[0])
+                    ${(!!tasteRec.Similar.Results[0])
                     ?('')
-                    :('no similar items found...')
-                  }
-                      ${tasteRec.Similar.Results.map(rec => {
-                        return (
-                          `<li id="${rec.Name}">
-                            <p><a href="${rec.wUrl}">${rec.Name}</a></p>
-                            <p id="rec-p">${rec.wTeaser}</p>
-                            ${renderTrailer(rec.yUrl)}
-                          </li>`
-                        );
-                      }).join("")}
+                    :('no similar items found...')}
+                    ${tasteRec.Similar.Results.map(rec => {
+                      return (
+                        `<li id="${rec.Name}">
+                          <p><a href="${rec.wUrl}">${rec.Name}</a></p>
+                          <p id="rec-p">${rec.wTeaser}</p>
+                          ${renderTrailer(rec.yUrl)}
+                        </li>`
+                      );
+                    }).join("")}
                   </ul>
                 </div>
-            </div>
       </div>`
-  );
+    );
+  }
 }
 
 const renderTrailer = (source) => {
@@ -208,10 +208,10 @@ function displaySearchResults(json) {
         ? `img/no_poster.png`
         : `https://image.tmdb.org/t/p/w342${item.poster_path}`;
     $(".results-movies").append(
-      `<div id="movie" data-tmdb-id="${item.id}">
-            <p>${item.original_title}<p>
-            <img src="${imgUrl}" alt="movie poster" />
-      </div>`
+      `<article id="movie" data-tmdb-id="${item.id}">
+        <p>${item.original_title}<p>
+        <img src="${imgUrl}" alt="movie poster" />
+      </article>`
     );
   });
 

@@ -8,6 +8,10 @@ body {
   color: white;
 }
 
+ul, li {
+  margin: 0;
+  padding: 0;
+}
 .container {
   margin: 0 auto;
   display: flex;
@@ -24,6 +28,13 @@ div[id^="movie"] {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+}
+
+#movie {
+  border: 2px solid #699ff5;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
 }
 
 h3 {
@@ -65,6 +76,22 @@ li {
 }
 
 #ratings > ul > li{
-  border: 2px solid cornflowerblue;
+  border: 2px solid #699ff5;;
+  border-radius: 5px;
   max-width: 25%;
+  padding: 10px;
+}
+
+@media (max-width: 500px) {
+  #ratings {
+    margin: 10% 10px 10% 10px;
+  }
+
+  #ratings > ul {
+    flex-direction: column;
+  }
+
+  #ratings > ul > li {
+    max-width: 100%;
+  }
 }
