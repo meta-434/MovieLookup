@@ -21,14 +21,17 @@ function getMovies(srcParam) {
     .then(responseJson => {
       // console.log(responseJson);
       if (responseJson.total_results === 0) {
-        $(".results-movies").append(`<h2>Bad search term ${srcParam}<h2>`)
-        throw new Error(
-          `no results for ${srcParam}. Please try a different movie. @getMovies()`
-        );
+        $(".results-movies").append(
+          `<alert>
+            <h2>Bad search term ${srcParam}.<h2>
+            <p>Please try a different search term.</p>
+          </alert>`)
       }
       displaySearchResults(responseJson);
     })
-    .catch(error => alert(`error: ${error}. search for ${srcParam} failed.`));
+    .catch(error => alert(
+      `${error}. search for ${srcParam} failed. email acyrush@gmail.com, because something really broke...`
+    ));
 }
 
 /* getNytReviews() makes a request to the New York Times'
